@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رمضان كريم ✨</title>
+    <style>
+        body { background: #1a1a2e; color: #fff; text-align: center; font-family: 'Arial', sans-serif; margin: 0; padding: 20px; overflow-x: hidden; position: relative; min-height: 100vh; }
+        
+        /* تأثير النجوم والفوانيس في الخلفية */
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); overflow: hidden; }
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: blink 2s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        .page { display: none; max-width: 500px; margin: 40px auto; animation: slideIn 0.6s ease-out; position: relative; z-index: 1; }
+        #page1 { display: block; }
+        .card { background: rgba(22, 33, 62, 0.9); padding: 30px; border-radius: 25px; border: 2px solid #ff7f50; box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
+        button { background: #ff7f50; color: #fff; border: none; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 18px; width: 100%; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+        button:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4); }
+        img, video { width: 100%; border-radius: 20px; margin-top: 15px; border: 2px solid #ffaf7b; }
+        .text-box { background: #0f3460; padding: 20px; border-radius: 15px; margin: 20px 0; line-height: 1.8; font-size: 1.1rem; border-right: 5px solid #ff7f50; }
+        input { padding: 15px; width: 85%; border-radius: 12px; border: none; text-align: center; margin-bottom: 10px; }
+        
+        /* العداد التنازلي */
+        #countdown { display: flex; justify-content: space-around; margin-top: 20px; font-weight: bold; }
+        .time-unit { background: #ff7f50; padding: 10px; border-radius: 10px; min-width: 60px; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="stars" id="starField"></div>
+
+    <div id="page1" class="page">
+        <div class="card">
+            <h1>🌙 رمضان كريم 🌙</h1>
+            <p>مستني إيه؟ اكتب السر وافتح الهدية! 😉</p>
+            <input type="password" id="passInput" placeholder="كلمة السر...">
+            <button onclick="checkPass()">افتح الهدية 🎁</button>
+        </div>
+    </div>
+
+    <div id="page2" class="page">
+        <div class="card">
+            <h1>فيديو مخصوص ✨</h1>
+            <video id="vid" controls><source src="1.mp4" type="video/mp4"></video>
+            <div class="text-box">
+                <p>كل سنه واحنا مع بعض ياقلبي ودايما مهما حصل في ضهر بعض رمضان داخل قولت اقولك كل سنه وانت طيب بس بطريقتي بحبكم 💗</p>
+            </div>
+            <button onclick="showPage(3)">شوف أول صورة 📸</button>
+        </div>
+    </div>
+
+    <div id="page3" class="page">
+        <div class="card">
+            <h1>أجمل ذكرى 📸</h1>
+            <img src="1.jpg.jpeg">
+            <button onclick="showPage(4)">اللي بعدها 🔥</button>
+        </div>
+    </div>
+
+    <div id="page4" class="page">
+        <div class="card">
+            <h1>ضحكتنا سوا ❤️</h1>
+            <img src="2.jpg.jpeg">
+            <button onclick="showPage(5)">رسالة ليك 💌</button>
+        </div>
+    </div>
+
+    <div id="page5" class="page">
+        <div class="card">
+            <h1>كلام من القلب 😂</h1>
+            <div class="text-box">
+                <p>رمضان كريم يا قلبي، وكل سنه واحنا مع بعض كل رمضان، ونرخم على بعض زاي كل سنه كدة وما نتحرمش من بعض أبداً.. رمضان أحلى بيك! 🌙✨</p>
+            </div>
+            <button onclick="showPage(6)">فاضل قد إيه؟ ⏳</button>
+        </div>
+    </div>
+
+    <div id="page6" class="page">
+        <div class="card">
+            <h1>🌙 رمضان مبارك 🌙</h1>
+            <p>فاضل على أجمل أيام السنة:</p>
+            <div id="countdown">
+                <div class="time-unit"><span id="days">0</span><br>يوم</div>
+                <div class="time-unit"><span id="hours">0</span><br>ساعة</div>
+                <div class="time-unit"><span id="mins">0</span><br>دقيقة</div>
+            </div>
+            <div class="text-box" style="margin-top:25px;">
+                كل سنة وأنت طيب ومنور دنيتي دايماً.
+            </div>
+            <button onclick="showPage(1)" style="background: #555;">الرجوع للرئيسية</button>
+        </div>
+    </div>
+
+    <script>
+        // إنشاء النجوم في الخلفية
+        const starField = document.getElementById('starField');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starField.appendChild(star);
+        }
+
+        function checkPass() {
+            if (document.getElementById("passInput").value === "2006") { showPage(2); } 
+            else { alert("الباسورد غلط يا برنس! 😉"); }
+        }
+
+        function showPage(num) {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            document.getElementById('page' + num).style.display = 'block';
+            if(num === 2) document.getElementById('vid').play();
+            window.scrollTo(0,0);
+        }
+
+        // حساب وقت رمضان (افتراضياً 1 مارس 2026)
+        function updateCountdown() {
+            const ramadanDate = new Date("March 1, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = ramadanDate - now;
+
+            if (diff > 0) {
+                document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("mins").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
